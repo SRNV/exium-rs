@@ -2,7 +2,15 @@
 name = "exium-rs"
 version = "0.1.0"
 edition = "2018"
+description = "Exium's lexer"
+repository = "https://github.com/SRNV/Exium"
+license = "MIT"
+authors = ["The Exium authors"]
+
+[lib]
+name = "exium"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+
