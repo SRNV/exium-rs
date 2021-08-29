@@ -2,7 +2,7 @@ mod exium_context;
 use exium_context::ExiumContext;
 mod enums; use enums::{ Reason };
 
-pub type on_error_type = fn (
+pub type onErrorType = fn (
   reason: Reason,
   cursor: Cursor,
   context: ExiumContext,
@@ -12,19 +12,21 @@ pub struct Exium {
   char: char,
   char_code: u32,
   chars: Vec<char>,
-  on_error: on_error_type,
+  on_error: onErrorType,
+  current_contexts: Vec<ExiumContext>,
 }
 impl Exium {
-  pub fn new(on_error: on_error_type) -> Self {
+  pub fn new(on_error: onErrorType) -> Self {
     Exium {
       cursor: Cursor::new(0),
       char: ' ',
       char_code: ' ' as u32,
       chars: [].to_vec(),
+      current_contexts: Vec::new(),
       on_error,
     }
   }
-  pub fn read(mut self, source: &str) {
+  pub fn read(mut self, source: &str) -> Vec<ExiumContext> {
     // save all chars
     self.chars = Vec::new();
     for char in source.chars() {
@@ -35,6 +37,7 @@ impl Exium {
       // shift
       self.shift(1);
     }
+    self.current_contexts
   }
   fn shift(&mut self, x: i32) {
     self.cursor.x+= x;

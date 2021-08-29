@@ -1,3 +1,4 @@
+#[derive(strum_macros::Display)]
 pub enum ContextTypes {
     Unexpected,
     Space,

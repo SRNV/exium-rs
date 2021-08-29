@@ -1,14 +1,28 @@
 use crate::exium::Exium;
 use crate::exium::enums::ContextTypes;
+use std::collections::HashMap;
+use std::any::{Any};
 
 pub struct ExiumContext {
   // position of the Context, 0 is the begining of the document
-  _x: i32,
+  start: i32,
   // the source of the Context
-  _source: String,
+  source: String,
   // the type of the Context
   _type: ContextTypes,
-  _children: Vec<ExiumContext>,
-  _related: Vec<ExiumContext>,
+  children: Vec<ExiumContext>,
+  related: Vec<ExiumContext>,
+  data: HashMap<String, bool>,
 }
-impl ExiumContext {}
+impl ExiumContext {
+  fn new(self, _type: ContextTypes, source: String, start: i32) -> Self {
+    ExiumContext {
+      source,
+      start,
+      _type,
+      children: Vec::new(),
+      related: Vec::new(),
+      data: HashMap::new(),
+    }
+  }
+}
