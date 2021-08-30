@@ -1,4 +1,8 @@
-#[derive(strum_macros::Display)]
+use wasm_bindgen::prelude::*;
+use serde::{Serialize, Deserialize};
+
+#[wasm_bindgen]
+#[derive(strum_macros::Display, Deserialize, Serialize)]
 pub enum ContextTypes {
     Unexpected,
     Space,
@@ -114,8 +118,11 @@ pub enum ContextTypes {
     StyleSheetPixelType,
     StyleSheetAtRuleTrait,
 }
+
+#[derive(strum_macros::Display, Deserialize, Serialize)]
 pub enum Reason {
     Unsupported = 0,
+    None = 3,
     UnexpectedToken = 1436,
     HTMLTagNotClosed = 1443,
     CommentBlockOpen = 1519,

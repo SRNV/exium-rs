@@ -1,32 +1,31 @@
-mod exium_context;
-use exium_context::ExiumContext;
+pub mod exium_context;
+use exium_context::{ExiumContextStruct};
 mod enums; use enums::{ Reason };
+use wasm_bindgen::prelude::*;
+use serde::{Deserialize, Serialize};
 
-pub type onErrorType = fn (
-  reason: Reason,
-  cursor: Cursor,
-  context: ExiumContext,
-);
+#[wasm_bindgen]
+#[derive(Deserialize, Serialize)]
 pub struct Exium {
   cursor: Cursor,
   char: char,
   char_code: u32,
   chars: Vec<char>,
-  on_error: onErrorType,
-  current_contexts: Vec<ExiumContext>,
+  reason: Reason,
+  current_contexts: Vec<ExiumContextStruct>,
 }
 impl Exium {
-  pub fn new(on_error: onErrorType) -> Self {
+  pub fn new() -> Self {
     Exium {
       cursor: Cursor::new(0),
       char: ' ',
       char_code: ' ' as u32,
+      reason: Reason::None,
       chars: [].to_vec(),
       current_contexts: Vec::new(),
-      on_error,
     }
   }
-  pub fn read(mut self, source: &str) -> Vec<ExiumContext> {
+  pub fn read(mut self, source: &str) -> Vec<ExiumContextStruct> {
     // save all chars
     self.chars = Vec::new();
     for char in source.chars() {
@@ -56,6 +55,7 @@ impl Exium {
     self.cursor.x >= size as i32
   }
 }
+#[derive(Deserialize, Serialize)]
 pub struct Cursor {
   x: i32
 }
